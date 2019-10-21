@@ -17,7 +17,6 @@ class Data:
             # For each line, create new list of numbers cast from string to int
             # Append to the empty preference matrix to create full prefmatrix
             # https://stackoverflow.com/a/6583635 for concise matrix appending
-        print(self.prefmatrix[1][3])
 
     def getmembers(self):
         return self.members
