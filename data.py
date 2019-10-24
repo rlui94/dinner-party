@@ -6,7 +6,8 @@ class Data:
         self.prefmatrix = prefmatrix
 
     def readfile(self, filename):
-        """Reads a file in the format described in the README and stores info"""
+        """Reads a file in the format described in the README and stores info
+            :param filename: Path to file as string"""
         with open(filename, 'r') as file:
             self.members = int(file.readline().strip())
             # first line is always an even number, this is our number of members
@@ -27,6 +28,9 @@ class Data:
     def pref(self, p1, p2):
         """Given a pair of people p1,p2
             return the preference score.
-            Remember people are numbered 0-(n-1)!"""
+            Remember people are numbered 0-(n-1)!
+            :param p1: First person as int
+            :param p2: Second person as int
+            :returns : Score of combo as int"""
         assert self.prefmatrix, 'prefixmatrix is empty'
         return self.prefmatrix[p1][p2]
