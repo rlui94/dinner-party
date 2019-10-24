@@ -18,6 +18,8 @@ class Search:
         return self.members
 
     def are_host_and_guest(self, p1, p2):
+        """Checks if p1 and p2 are a host/guest pair
+            :returns: true if either p1 is a host and p2 is a guest or vice versa, false otherwise"""
         if p1 >= self.members/2 > p2 or p2 >= self.members/2 > p1:
             return True
         else:
@@ -35,6 +37,8 @@ class Search:
                 of people with one a host and the other a guest.
             - h(p1, p2) + h(p2, p1) points for every adjacent or opposite pair of people p1, p2.
             Remember that lists start at 0!!!
+            :param state: List of int of size n
+            :return: Int score for the given state
             """
         hosts = int(self.members/2)
         score = self.party.pref(state[0], state[hosts]) + self.party.pref(state[hosts], state[0])

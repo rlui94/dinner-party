@@ -24,7 +24,6 @@ class TestSearch(TestCase):
         self.assertEqual(search.are_host_and_guest(1, 3), True)
         self.assertEqual(search.are_host_and_guest(1, 2), True)
 
-
     def test_score(self):
         search = Search(Data(default_members, default_matrix))
         state = [0, 1, 2, 3]
