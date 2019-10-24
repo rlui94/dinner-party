@@ -28,3 +28,7 @@ class TestSearch(TestCase):
         search = Search(Data(default_members, default_matrix))
         state = [0, 1, 2, 3]
         self.assertEqual(search.score(state), -14)
+
+    def test_search(self):
+        search = Search(Data(default_members, default_matrix))
+        search.solve(1, True)
