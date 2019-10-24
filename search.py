@@ -19,7 +19,9 @@ class Search:
 
     def are_host_and_guest(self, p1, p2):
         """Checks if p1 and p2 are a host/guest pair
-            :returns: true if either p1 is a host and p2 is a guest or vice versa, false otherwise"""
+            :param p1: First person as int
+            :param p2: Second person as int
+            :returns: True if either p1 is a host and p2 is a guest or vice versa, False otherwise"""
         if p1 >= self.members/2 > p2 or p2 >= self.members/2 > p1:
             return True
         else:
