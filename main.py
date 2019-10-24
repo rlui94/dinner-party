@@ -1,11 +1,19 @@
 from data import Data
+FILEFLAG = 1
 
-filename = 'hw1-inst1.txt'
-# filename = 'hw1-inst2.txt'
-# filename = 'hw1-inst3.txt'
+
+def file_switch(flag):
+    switcher = {
+        1: 'hw1-inst1.txt',
+        2: 'hw1-inst2.txt',
+        3: 'hw1-inst3.txt',
+    }
+    return switcher.get(flag, "Invalid flag")
+
 
 if __name__ == '__main__':
+
     party = Data()
-    party.readfile(filename)
+    party.readfile(file_switch(FILEFLAG))
     print("Hello World")
 
