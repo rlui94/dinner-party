@@ -142,6 +142,12 @@ class Search:
             return False
 
     def solve(self, flips=10, flag=False):
+        """Uses other Search methods to find better scoring states.
+            Set the default state, randomize list until we get a score better than default.
+            Swap two positions in a newly created state, then compare the scores of the two seats in old a new states.
+            Repeat until desired flips have been made.
+            :param flips: Number of flips to be made as an int, default 10
+            :param flag: Debug flag as bool, default False"""
         if flag:
             best_state = [0, 1, 2, 3]
             print("start state", best_state)
@@ -150,7 +156,7 @@ class Search:
             print("new", new_state)
             print("new score", self.score(new_state))
         else:
-            # set the default state and score
+            # set the default state
             best_state = []
             for i in range(0, self.members):
                 best_state.append(i)
