@@ -73,19 +73,19 @@ class Search:
         if 0 <= seat <= self.hosts-1:
             score += self.party.pref(state[seat], state[seat+self.hosts])
             score += self.party.pref(state[seat+self.hosts], state[seat])
-            if self.are_host_and_guest(seat, seat+self.hosts):
+            if self.are_host_and_guest(state[seat], state[seat+self.hosts]):
                 score += 2
             # is seat in top left corner?
             if seat == 0:
                 score += self.party.pref(state[seat], state[seat+1])
                 score += self.party.pref(state[seat+1], state[seat])
-                if self.are_host_and_guest(seat, seat+1):
+                if self.are_host_and_guest(state[seat], state[seat+1]):
                     score += 1
             # is seat top right corner?
             elif seat == self.hosts-1:
                 score += self.party.pref(state[seat], state[seat-1])
                 score += self.party.pref(state[seat-1], state[seat])
-                if self.are_host_and_guest(seat, seat-1):
+                if self.are_host_and_guest(state[seat], state[seat-1]):
                     score += 1
             # else seat is somewhere else in the top row
             else:
@@ -93,27 +93,27 @@ class Search:
                 score += self.party.pref(state[seat + 1], state[seat])
                 score += self.party.pref(state[seat], state[seat - 1])
                 score += self.party.pref(state[seat - 1], state[seat])
-                if self.are_host_and_guest(seat, seat+1):
+                if self.are_host_and_guest(state[seat], state[seat+1]):
                     score += 1
-                if self.are_host_and_guest(seat, seat-1):
+                if self.are_host_and_guest(state[seat], state[seat-1]):
                     score += 1
         # else seat is a bottom row seat
         else:
             score += self.party.pref(state[seat], state[seat-self.hosts])
             score += self.party.pref(state[seat-self.hosts], state[seat])
-            if self.are_host_and_guest(seat-self.hosts, seat):
+            if self.are_host_and_guest(state[seat-self.hosts], state[seat]):
                 score += 2
             # is seat in bottom left corner?
             if seat == self.hosts:
                 score += self.party.pref(state[seat], state[seat+1])
                 score += self.party.pref(state[seat+1], state[seat])
-                if self.are_host_and_guest(seat+1, seat):
+                if self.are_host_and_guest(state[seat+1], state[seat]):
                     score += 1
             # is seat in bottom right corner?
             elif seat == self.members-1:
                 score += self.party.pref(state[seat], state[seat-1])
                 score += self.party.pref(state[seat-1], state[seat])
-                if self.are_host_and_guest(seat-1, seat):
+                if self.are_host_and_guest(state[seat-1], state[seat]):
                     score += 1
             # else seat is somewhere else in bottom row
             else:
@@ -121,14 +121,25 @@ class Search:
                 score += self.party.pref(state[seat + 1], state[seat])
                 score += self.party.pref(state[seat], state[seat - 1])
                 score += self.party.pref(state[seat - 1], state[seat])
-                if self.are_host_and_guest(seat+1, seat):
+                if self.are_host_and_guest(state[seat+1], state[seat]):
                     score += 1
-                if self.are_host_and_guest(seat-1, seat):
+                if self.are_host_and_guest(state[seat-1], state[seat]):
                     score += 1
         return score
 
-    def swap_and_score(self, pos1, pos2, old_state, new_state):
-        return 0
+    def score_compare(self, pos1, pos2, old_state, new_state):
+        """Uses score_seat method to compare sum of old seat scores and sum of new seat scores.
+            :param old_state: Old state as list of int
+            :param new_state: New state as list of int
+            :param pos1: First position in the swap as int
+            :param pos2: Second position in the swap as int
+            :returns: True if new seating is better (new score is higher) else False"""
+        old_seat_score = self.score_seat(old_state, pos1) + self.score_seat(old_state, pos2)
+        new_seat_score = self.score_seat(new_state, pos1) + self.score_seat(new_state, pos2)
+        if new_seat_score > old_seat_score:
+            return True
+        else:
+            return False
 
     def solve(self, flips=10, flag=False):
         # set the default state and score
