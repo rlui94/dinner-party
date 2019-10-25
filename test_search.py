@@ -1,8 +1,6 @@
 from unittest import TestCase
 from data import Data
 from search import Search
-from io import StringIO
-import sys
 
 default_matrix = [[0, -4, 6, 5], [-6, 0, 3, -7], [-8, 1, 0, 5], [2, -4, 0, 0]]
 default_members = 4
@@ -59,4 +57,21 @@ class TestSearch(TestCase):
         search.solve(1, True)
         search.print_state(True)
 
+    def test_solve_hw(self):
+        FILEFLAG = 1
+
+        def file_switch(flag):
+            switcher = {
+                1: 'hw1-inst1.txt',  # 1m flips = ~20 seconds
+                2: 'hw1-inst2.txt',
+                3: 'hw1-inst3.txt',
+                4: 'testfile.txt',
+            }
+            return switcher.get(flag, "Invalid flag")
+
+        party = Data()
+        party.readfile(file_switch(FILEFLAG))
+        searcher = Search(party)
+        searcher.solve(3000000)
+        searcher.print_state()
 

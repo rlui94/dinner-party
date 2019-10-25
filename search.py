@@ -1,6 +1,6 @@
 from data import Data
 import random
-import sys
+import os
 
 
 class Search:
@@ -184,10 +184,27 @@ class Search:
             :param pretty: Bool that prints pretty if True, default False"""
         if pretty:
             print("State score:", self.score(self.state))
-            print("Person Number\t", "Seat Number")
+            print("Person Number\tSeat Number")
             for i in range(0, self.members):
                 print(self.state[i]+1, '\t\t\t\t', i+1)
         else:
             print(self.score(self.state))
             for i in range(0, self.members):
                 print(self.state[i]+1, i+1)
+
+    def print_state_file(self, filename, pretty=False):
+        """Outputs state variable stored to a file. We add +1 to the results because states are numbered 0-members.
+            :param filename: path to file as string
+            :param pretty: Bool that prints pretty if True, default False"""
+        if os.path.exists(filename):
+            os.remove(filename)
+        with open(filename, 'w') as file:
+            if pretty:
+                file.write("State score: %d\n" % self.score(self.state))
+                file.write("Person Number\tSeat Number\n")
+                for i in range(0, self.members):
+                    file.write("%d\t\t\t\t%d\n" % (self.state[i]+1, i+1))
+            else:
+                file.write("%d\n" % self.score(self.state))
+                for i in range(0, self.members):
+                    file.write("%d %d\n" % (self.state[i]+1, i+1))
