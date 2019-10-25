@@ -142,25 +142,24 @@ class Search:
             return False
 
     def solve(self, flips=10, flag=False):
-        # set the default state and score
-        best_state = []
-        for i in range(0, self.members):
-            best_state.append(i)
-        top_score = self.score(best_state)
         if flag:
-            print("best", best_state)
-            print("top", top_score)
-        # randomize list until we get a score better than default
-        while True:
-            new_state = random.sample(best_state, len(best_state))
-            new_score = self.score(new_state)
-            if flag:
-                print("new", new_state)
-                print("new score", new_score)
-            if new_score > top_score:
-                break
-        best_state = new_state
-        top_score = new_score
+            best_state = [0, 1, 2, 3]
+            print("start state", best_state)
+            print("start score", self.score(best_state))
+            new_state = [0, 2, 1, 3]
+            print("new", new_state)
+            print("new score", self.score(new_state))
+        else:
+            # set the default state and score
+            best_state = []
+            for i in range(0, self.members):
+                best_state.append(i)
+            # randomize list until we get a score better than default
+            while True:
+                new_state = random.sample(best_state, len(best_state))
+                if self.score(best_state) > self.score(new_state):
+                    best_state = new_state
+                    break
         # swap two people
         for i in range(0, flips):
             new_state = best_state.copy()
@@ -170,4 +169,7 @@ class Search:
             if flag:
                 print("old state", best_state)
                 print("new state", new_state)
-
+            # if new state has a better score, store it
+            if self.score_compare(pos1, pos2, best_state, new_state):
+                best_state = new_state
+        return best_state
