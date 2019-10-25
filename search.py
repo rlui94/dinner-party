@@ -1,5 +1,4 @@
 from data import Data
-from state import State
 import random
 
 

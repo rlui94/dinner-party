@@ -1,5 +1,7 @@
 class Data:
-    """Contains given information on party members."""
+    """Contains given information on party members.
+        :var members: number of total party members as an int.
+        :var prefmatrix: The preference matrix of the party members as a list of int."""
 
     def __init__(self, members=0, prefmatrix=[]):
         self.members = members

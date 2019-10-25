@@ -1,5 +1,5 @@
 from data import Data
-FILEFLAG = 1
+FILEFLAG = 4
 
 
 def file_switch(flag):
@@ -7,6 +7,7 @@ def file_switch(flag):
         1: 'hw1-inst1.txt',
         2: 'hw1-inst2.txt',
         3: 'hw1-inst3.txt',
+        4: 'testfile.txt',
     }
     return switcher.get(flag, "Invalid flag")
 
