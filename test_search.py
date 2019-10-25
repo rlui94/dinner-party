@@ -57,6 +57,11 @@ class TestSearch(TestCase):
         search.solve(1, True)
         search.print_state(True)
 
+    def test_solve_hill(self):
+        search = Search(Data(default_members, default_matrix))
+        search.solve(1, True, "g")
+        search.print_state(True)
+
     def test_solve_hw(self):
         FILEFLAG = 1
 

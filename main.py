@@ -2,12 +2,12 @@ from data import Data
 from search import Search
 import time
 FILEFLAG = 1
-FLIPS = 3000000
+FLIPS = 100000
 
 
 def file_switch(flag):
     switcher = {
-        1: 'hw1-inst1.txt',  # 1m flips = ~20 seconds
+        1: 'hw1-inst1.txt',  # 1m f flips = ~20 sec, 100,000 g flips = ~55 sec
         2: 'hw1-inst2.txt',
         3: 'hw1-inst3.txt',
         4: 'testfile.txt',
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     party = Data()
     party.readfile(file_switch(FILEFLAG))
     searcher = Search(party)
-    searcher.solve(FLIPS)
+    searcher.solve(flips=FLIPS, strat="g")
     searcher.print_state()
     end = time.time()
     print("Ran %d flips in %.3f seconds." % (FLIPS, end-start))

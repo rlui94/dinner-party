@@ -145,13 +145,17 @@ class Search:
         else:
             return False
 
-    def solve(self, flips=10, flag=False):
-        """Uses other Search methods to find better scoring states.
+    def solve(self, flips=10, flag=False, strat="f"):
+        """Uses other Search methods to find better scoring states. Implements hill climbing strategy.
             Set the default state, randomize list until we get a score better than default.
             Swap two positions in a newly created state, then compare the scores of the two seats in old a new states.
             Repeat until desired flips have been made.
             :param flips: Number of flips to be made as an int, default 10
-            :param flag: Debug flag as bool, default False"""
+            :param flag: Debug flag as bool, default False
+            :param strat: Type of solution:
+                f: default, "First-choice hill climbing" randomly swaps two positions and checks if score is better
+                g: "Greedy hill climbing" checks all combinations of swaps for best score
+                r: "Random restart hill climbing", greedy but randomly restarts"""
         if flag:
             self.state = [0, 1, 2, 3]
             print("start state", self.state)
@@ -163,21 +167,52 @@ class Search:
             # randomize list until we get a score better than default
             while True:
                 new_state = random.sample(self.state, self.members)
-                if self.score(self.state) > self.score(new_state):
+                if self.score(self.state) < self.score(new_state):
                     self.state = new_state
                     break
         # swap two people
-        for i in range(0, flips):
-            new_state = self.state.copy()
-            pos1 = random.randrange(0, self.members, 1)
-            pos2 = random.randrange(0, self.members, 1)
-            new_state[pos1], new_state[pos2] = new_state[pos2], new_state[pos1]
-            if flag:
-                print("old state", self.state)
-                print("new state", new_state)
-            # if new state has a better score, store it
-            if self.score_compare(pos1, pos2, self.state, new_state):
-                self.state = new_state
+        if strat == "g":
+            for x in range(0, flips):
+                for i in range(0, self.members):
+                    for j in range(0, self.members):
+                        if i != j:
+                            new_state = self.state.copy()
+                            new_state[i], new_state[j] = new_state[j], new_state[i]
+                            # if new state has a better score, store it
+                            if self.score_compare(i, j, self.state, new_state):
+                                self.state = new_state
+                    if random.random() > 0.75:
+                        break
+        elif strat == "r":
+            for x in range(0, flips):
+                for i in range(0, self.members):
+                    for j in range(0, self.members):
+                        if i != j:
+                            new_state = self.state.copy()
+                            new_state[i], new_state[j] = new_state[j], new_state[i]
+                            # if new state has a better score, store it
+                            if self.score_compare(i, j, self.state, new_state):
+                                self.state = new_state
+                    if random.random() > 0.9:
+                        # randomize list until we get a score better than default
+                        while True:
+                            new_state = random.sample(self.state, self.members)
+                            if self.score(self.state) < self.score(new_state):
+                                self.state = new_state
+                                break
+                        break
+        else:
+            for i in range(0, flips):
+                new_state = self.state.copy()
+                pos1 = random.randrange(0, self.members, 1)
+                pos2 = random.randrange(0, self.members, 1)
+                new_state[pos1], new_state[pos2] = new_state[pos2], new_state[pos1]
+                if flag:
+                    print("old state", self.state)
+                    print("new state", new_state)
+                # if new state has a better score, store it
+                if self.score_compare(pos1, pos2, self.state, new_state):
+                    self.state = new_state
 
     def print_state(self, pretty=False):
         """Prints state variable stored. We add +1 to the results because states are numbered 0-members.
