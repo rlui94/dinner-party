@@ -3,7 +3,10 @@ import random
 
 
 class Search:
-    """This class performs the search to find the optimal dinner party seating arrangement."""
+    """This class performs the search to find the optimal dinner party seating arrangement.
+        :var party: Information on party as type Data
+        :var members: number of party members as Int
+        :var hosts: number of hosts as int (should be members/2)"""
     party = 0
     members = 0
     hosts = 0
