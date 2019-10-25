@@ -3,15 +3,12 @@ import random
 
 
 class Search:
-    """This class performs the search to find the optimal dinner party seating arrangement.
-        :var party: Information on party as type Data
-        :var members: number of party members as Int
-        :var hosts: number of hosts as int (should be members/2)"""
-    party = 0
-    members = 0
-    hosts = 0
+    """This class performs the search to find the optimal dinner party seating arrangement."""
 
     def __init__(self, partydata):
+        """ :var party: Information on party as type Data
+            :var members: number of party members as Int
+            :var hosts: number of hosts as int (should be members/2)"""
         self.party = partydata
         self.members = self.party.getmembers()
         self.hosts = int(self.members / 2)
@@ -181,3 +178,6 @@ class Search:
             if self.score_compare(pos1, pos2, best_state, new_state):
                 best_state = new_state
         return best_state
+
+    def print_state(self):
+        return 0

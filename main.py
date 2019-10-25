@@ -1,4 +1,5 @@
 from data import Data
+from search import Search
 FILEFLAG = 4
 
 
@@ -16,5 +17,5 @@ if __name__ == '__main__':
 
     party = Data()
     party.readfile(file_switch(FILEFLAG))
-    print("Hello World")
+    searcher = Search(party)
 
