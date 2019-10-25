@@ -48,7 +48,10 @@ class TestSearch(TestCase):
         self.assertEqual(search.score_compare(1, 2, old_state, new_state), False)
         self.assertEqual(search.score_compare(2, 1, new_state, old_state), True)
 
+    def test_print(self):
+        search = Search(Data(default_members, default_matrix))
+
     def test_solve(self):
         search = Search(Data(default_members, default_matrix))
         result = search.solve(1, True)
-        print("state", result, "with score", search.score(result))
+

@@ -8,10 +8,14 @@ class Search:
     def __init__(self, partydata):
         """ :var party: Information on party as type Data
             :var members: number of party members as Int
-            :var hosts: number of hosts as int (should be members/2)"""
+            :var hosts: number of hosts as int (should be members/2)
+            :var state: Currently held state"""
         self.party = partydata
         self.members = self.party.getmembers()
         self.hosts = int(self.members / 2)
+        self.state = []
+        for i in range(0, self.members):
+            self.state.append(i)
 
     def getparty(self):
         return self.party
@@ -148,36 +152,42 @@ class Search:
             :param flips: Number of flips to be made as an int, default 10
             :param flag: Debug flag as bool, default False"""
         if flag:
-            best_state = [0, 1, 2, 3]
-            print("start state", best_state)
-            print("start score", self.score(best_state))
+            self.state = [0, 1, 2, 3]
+            print("start state", self.state)
+            print("start score", self.score(self.state))
             new_state = [0, 2, 1, 3]
             print("new", new_state)
             print("new score", self.score(new_state))
         else:
-            # set the default state
-            best_state = []
-            for i in range(0, self.members):
-                best_state.append(i)
             # randomize list until we get a score better than default
             while True:
-                new_state = random.sample(best_state, len(best_state))
-                if self.score(best_state) > self.score(new_state):
-                    best_state = new_state
+                new_state = random.sample(self.state, self.members)
+                if self.score(self.state) > self.score(new_state):
+                    self.state = new_state
                     break
         # swap two people
         for i in range(0, flips):
-            new_state = best_state.copy()
+            new_state = self.state.copy()
             pos1 = random.randrange(0, self.members, 1)
             pos2 = random.randrange(0, self.members, 1)
             new_state[pos1], new_state[pos2] = new_state[pos2], new_state[pos1]
             if flag:
-                print("old state", best_state)
+                print("old state", self.state)
                 print("new state", new_state)
             # if new state has a better score, store it
-            if self.score_compare(pos1, pos2, best_state, new_state):
-                best_state = new_state
-        return best_state
+            if self.score_compare(pos1, pos2, self.state, new_state):
+                self.state = new_state
 
-    def print_state(self):
-        return 0
+    def print_state(self, state, pretty=False):
+        """Prints given state given a state.
+            :param state: State to print as list of int
+            :param pretty: Bool that prints pretty if True, default False"""
+        if pretty:
+            print("State score:", self.score(state))
+            print("Person Number\t", "Seat Number")
+            for i in range(0, self.members):
+                print(state[i], '\t', i)
+        else:
+            print(self.score(state))
+            for i in range(0, self.members):
+                print(state[i], i)
