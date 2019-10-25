@@ -1,6 +1,8 @@
 from unittest import TestCase
 from data import Data
 from search import Search
+from io import StringIO
+import sys
 
 default_matrix = [[0, -4, 6, 5], [-6, 0, 3, -7], [-8, 1, 0, 5], [2, -4, 0, 0]]
 default_members = 4
@@ -50,8 +52,11 @@ class TestSearch(TestCase):
 
     def test_print(self):
         search = Search(Data(default_members, default_matrix))
+        search.print_state()
 
     def test_solve(self):
         search = Search(Data(default_members, default_matrix))
-        result = search.solve(1, True)
+        search.solve(1, True)
+        search.print_state(True)
+
 

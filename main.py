@@ -1,6 +1,6 @@
 from data import Data
 from search import Search
-FILEFLAG = 4
+FILEFLAG = 1
 
 
 def file_switch(flag):
@@ -18,4 +18,6 @@ if __name__ == '__main__':
     party = Data()
     party.readfile(file_switch(FILEFLAG))
     searcher = Search(party)
+    searcher.solve(100000)
+    searcher.print_state(True)
 

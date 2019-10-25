@@ -1,5 +1,6 @@
 from data import Data
 import random
+import sys
 
 
 class Search:
@@ -178,16 +179,15 @@ class Search:
             if self.score_compare(pos1, pos2, self.state, new_state):
                 self.state = new_state
 
-    def print_state(self, state, pretty=False):
-        """Prints given state given a state.
-            :param state: State to print as list of int
+    def print_state(self, pretty=False):
+        """Prints state variable stored. We add +1 to the results because states are numbered 0-members.
             :param pretty: Bool that prints pretty if True, default False"""
         if pretty:
-            print("State score:", self.score(state))
+            print("State score:", self.score(self.state))
             print("Person Number\t", "Seat Number")
             for i in range(0, self.members):
-                print(state[i], '\t', i)
+                print(self.state[i]+1, '\t\t\t\t', i+1)
         else:
-            print(self.score(state))
+            print(self.score(self.state))
             for i in range(0, self.members):
-                print(state[i], i)
+                print(self.state[i]+1, i+1)
