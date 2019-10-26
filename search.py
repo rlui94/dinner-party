@@ -1,6 +1,8 @@
 from data import Data
 import random
 import os
+import math
+# SEED = 441
 
 
 class Search:
@@ -154,6 +156,8 @@ class Search:
             :param flag: Debug flag as bool, default False
             :param strat: Type of solution:
                 f: default, "First-choice hill climbing" randomly swaps two positions and checks if score is better
+                a: "Simulated annealing", first-choice but sometimes takes position even if score is worse.
+                    Currently nonfunctioning.
                 g: "Greedy hill climbing" checks all combinations of swaps for best score
                 r: "Random restart hill climbing", greedy but randomly restarts"""
         if flag:
@@ -166,6 +170,7 @@ class Search:
         else:
             # randomize list until we get a score better than default
             while True:
+                # random.seed(SEED)
                 new_state = random.sample(self.state, self.members)
                 if self.score(self.state) < self.score(new_state):
                     self.state = new_state
@@ -181,6 +186,7 @@ class Search:
                             # if new state has a better score, store it
                             if self.score_compare(i, j, self.state, new_state):
                                 self.state = new_state
+                    # random.seed(SEED)
                     if random.random() > 0.75:
                         break
         elif strat == "r":
@@ -193,18 +199,40 @@ class Search:
                             # if new state has a better score, store it
                             if self.score_compare(i, j, self.state, new_state):
                                 self.state = new_state
+                    # random.seed(SEED)
                     if random.random() > 0.9:
                         # randomize list until we get a score better than default
                         while True:
+                            # random.seed(SEED)
                             new_state = random.sample(self.state, self.members)
                             if self.score(self.state) < self.score(new_state):
                                 self.state = new_state
                                 break
                         break
+        elif strat == "a":
+            temp = 1000
+            for i in range(0, flips):
+                new_state = self.state.copy()
+                # random.seed(SEED)
+                pos1 = random.randrange(0, self.members, 1)
+                # random.seed(SEED)
+                pos2 = random.randrange(0, self.members, 1)
+                new_state[pos1], new_state[pos2] = new_state[pos2], new_state[pos1]
+                if flag:
+                    print("old state", self.state)
+                    print("new state", new_state)
+                old_seat_score = self.score_seat(self.state, pos1) + self.score_seat(self.state, pos2)
+                new_seat_score = self.score_seat(new_state, pos1) + self.score_seat(new_state, pos2)
+                if new_seat_score > old_seat_score or math.pow(math.e, (old_seat_score-new_seat_score)/temp) > random.random():
+                    self.state = new_state
+                temp *= 0.8
+                # https://www.geeksforgeeks.org/simulated-annealing/
         else:
             for i in range(0, flips):
                 new_state = self.state.copy()
+                # random.seed(SEED)
                 pos1 = random.randrange(0, self.members, 1)
+                # random.seed(SEED)
                 pos2 = random.randrange(0, self.members, 1)
                 new_state[pos1], new_state[pos2] = new_state[pos2], new_state[pos1]
                 if flag:
